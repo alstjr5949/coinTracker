@@ -12,19 +12,25 @@ const NavContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 `;
 
 const Logo = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  width: 200px;
+  width: 100vw;
+  padding: 0px 20px;
+  margin-left: 200px;
   & span {
     font-size: 35px;
     font-style: italic;
     font-weight: 800;
+    &:first-child {
+      color: #101820;
+    }
     &:last-child {
-      color: #195190;
+      color: #fee715;
     }
   }
 `;
