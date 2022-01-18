@@ -21,16 +21,18 @@ const Logo = styled.div`
   align-items: center;
   width: 100vw;
   padding: 0px 20px;
-  margin-left: 200px;
+  margin-left: 100px;
+  margin-top: 50px;
   & span {
-    font-size: 35px;
+    letter-spacing: 2px;
+    font-size: 30px;
     font-style: italic;
     font-weight: 800;
     &:first-child {
       color: #101820;
     }
     &:last-child {
-      color: #fee715;
+      color: #0984e3;
     }
   }
 `;
@@ -38,12 +40,12 @@ const Logo = styled.div`
 function Nav() {
   return (
     <NavContainer>
-      <Link to="/">
-        <Logo>
+      <Logo>
+        <Link to="/">
           <span>Simp</span>
           <span>Bit</span>
-        </Logo>
-      </Link>
+        </Link>
+      </Logo>
     </NavContainer>
   );
 }

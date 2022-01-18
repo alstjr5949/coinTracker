@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Coins from "./Coins";
 import Coin from "./Coin";
+import Home from "./Home";
 import Nav from "../components/Nav";
 
 function Router() {
@@ -8,7 +9,8 @@ function Router() {
     <BrowserRouter>
       <Nav />
       <Routes>
-        <Route path="/" element={<Coins />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/coins" element={<Coins />} />
         <Route path="/:coinId/*" element={<Coin />} />
       </Routes>
     </BrowserRouter>
