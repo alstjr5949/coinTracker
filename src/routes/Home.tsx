@@ -43,13 +43,13 @@ const BgText = styled.div`
   display: flex;
   flex-direction: column;
   & span {
-    font-size: 100px;
-    font-weight: 700;
+    font-size: 80px;
+    font-weight: 600;
     color: ${(props) => props.theme.bgColor};
     letter-spacing: 5px;
     text-shadow: -1px -1px 2px rgba(150, 150, 150, 1);
     &:last-child {
-      font-size: 25px;
+      font-size: 20px;
       font-weight: 300;
       opacity: 0.7;
       letter-spacing: 1px;
@@ -60,12 +60,18 @@ const BgText = styled.div`
 
 const BgBtn = styled.span`
   position: absolute;
+  width: 140px;
   top: 60%;
   left: 100px;
-  color: #0984e3;
+  color: ${(props) => props.theme.bgColor};
   font-size: 20px;
   font-weight: 600;
   margin-top: 20px;
+  border-bottom: 1px solid white;
+  transition: all 0.5s ease-in-out;
+  &:hover {
+    width: 300px;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -176,10 +182,10 @@ function Coins() {
             </video>
             <BgText>
               <span>Simple</span>
-              <span>Coin info.</span>
+              <span>Coin Info.</span>
               <span>간단히 살펴보는 코인정보 사이트</span>
             </BgText>
-            <Link to="/coins">
+            <Link to="/btc-bitcoin">
               <BgBtn>Look Around &rarr;</BgBtn>
             </Link>
           </BgContainer>
