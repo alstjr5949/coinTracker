@@ -168,7 +168,8 @@ interface PriceData {
 function Home() {
   const { isLoading, data } = useQuery<PriceData[]>(
     "allTickers",
-    fetchAllCoinTickers
+    fetchAllCoinTickers,
+    { refetchInterval: 5000 }
   );
   return (
     <Container>

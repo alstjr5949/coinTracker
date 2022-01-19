@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchAllCoinTickers } from "../api";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -51,7 +51,7 @@ const CoinUl = styled.ul`
   padding: 10px;
 `;
 
-const CoinLi = styled.li`
+const CoinLi = styled.li<{ isActive: boolean }>`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -61,8 +61,13 @@ const CoinLi = styled.li`
   margin-bottom: 15px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
   transition: all 0.2s ease-in-out;
+  background-color: ${(props) =>
+    props.isActive ? props.theme.bgColor : "rgba(0,0,0,0.05)"};
+  border: 1px solid
+    ${(props) => (props.isActive ? props.theme.bgColor : "rgba(0,0,0,0.1)")};
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.01);
   }
 `;
 
@@ -135,13 +140,15 @@ interface PriceData {
 }
 
 function Coin() {
-  const { isLoading, data } = useQuery<PriceData[]>(
+  const { coinId } = useParams();
+  const { isLoading: tickerLoading, data: tickerData } = useQuery<PriceData[]>(
     "allTickers",
-    fetchAllCoinTickers
+    fetchAllCoinTickers,
+    { refetchInterval: 5000 }
   );
   return (
     <Container>
-      {isLoading ? (
+      {tickerLoading ? (
         <h1>Loading...</h1>
       ) : (
         <ContentBox>
@@ -149,9 +156,9 @@ function Coin() {
           <ListBox>
             <CoinListHeader>코인리스트</CoinListHeader>
             <CoinUl>
-              {data?.slice(0, 100).map((coin) => (
+              {tickerData?.slice(0, 100).map((coin) => (
                 <Link to={`/${coin.id}`}>
-                  <CoinLi key={coin.id}>
+                  <CoinLi key={coin.id} isActive={`${coinId}` !== `${coin.id}`}>
                     <NameBox>
                       <Img
                         src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
