@@ -165,7 +165,7 @@ interface PriceData {
   };
 }
 
-function Coins() {
+function Home() {
   const { isLoading, data } = useQuery<PriceData[]>(
     "allTickers",
     fetchAllCoinTickers
@@ -199,10 +199,7 @@ function Coins() {
                   key={coin.id}
                   percent={coin.quotes.USD.percent_change_15m < 0}
                 >
-                  <Link
-                    to={`/${coin.id}`}
-                    state={{ name: coin.name, rank: coin.rank }}
-                  >
+                  <Link to={`/${coin.id}`}>
                     <Img
                       src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
                       alt={coin.id}
@@ -223,4 +220,4 @@ function Coins() {
   );
 }
 
-export default Coins;
+export default Home;
