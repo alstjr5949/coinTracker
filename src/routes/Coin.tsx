@@ -1,6 +1,11 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { fetchAllCoinTickers } from "../api";
+import {
+  fetchAllCoinTickers,
+  fetchCoinHistory,
+  fetchCoinInfo,
+  fetchCoinTickers,
+} from "../api";
 import { Link, useParams } from "react-router-dom";
 
 const Container = styled.div`
@@ -20,8 +25,9 @@ const ContentBox = styled.div`
 const ChartBox = styled.div`
   width: 60%;
   height: 80%;
-  background-color: wheat;
   margin-right: 1%;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 `;
 
 const ListBox = styled.div`
@@ -30,6 +36,8 @@ const ListBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 `;
 
 const CoinListHeader = styled.div`
@@ -105,6 +113,82 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+const ChartHeader = styled.div`
+  width: 100%;
+  height: 20%;
+`;
+
+const CoinName = styled.div`
+  width: 100%;
+  height: 35%;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+`;
+
+const CoinQuote = styled.div<{ percent: boolean }>`
+  width: 100%;
+  height: 65%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  color: ${(props) =>
+    props.percent ? props.theme.textColor : props.theme.accentColor};
+`;
+
+const ChartUSDBox = styled.div`
+  margin-bottom: 10px;
+  & span:first-child {
+    font-size: 30px;
+    font-weight: 600;
+    margin-right: 5px;
+    letter-spacing: 1px;
+  }
+  & span:last-child {
+    font-size: 16px;
+  }
+`;
+
+const ChartPercentBox = styled.div`
+  display: flex;
+  align-items: center;
+  & span:first-child {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.4);
+    margin-right: 10px;
+  }
+  & span:last-child {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+`;
+
+interface InfoData {
+  id: string;
+  name: string;
+  symbol: string;
+  rank: number;
+  is_new: boolean;
+  is_active: boolean;
+  type: string;
+  description: string;
+  message: string;
+  open_source: boolean;
+  started_at: string;
+  development_status: string;
+  hardware_wallet: boolean;
+  proof_type: string;
+  org_structure: string;
+  hash_algorithm: string;
+  first_data_at: string;
+  last_data_at: string;
+}
+
 interface PriceData {
   id: string;
   name: string;
@@ -139,24 +223,87 @@ interface PriceData {
   };
 }
 
+interface IHistoric {
+  time_open: string;
+  time_close: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  market_cap: number;
+}
+
 function Coin() {
   const { coinId } = useParams();
-  const { isLoading: tickerLoading, data: tickerData } = useQuery<PriceData[]>(
-    "allTickers",
-    fetchAllCoinTickers,
-    { refetchInterval: 5000 }
+  console.log(coinId);
+  const { isLoading: allTickerLoading, data: allTickerData } = useQuery<
+    PriceData[]
+  >("allTickers", fetchAllCoinTickers, { refetchInterval: 5000 });
+  const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
+    ["info", coinId],
+    () => fetchCoinInfo(coinId ? coinId : "")
+  );
+  const { isLoading: tickerLoading, data: tickerData } = useQuery<PriceData>(
+    ["tickers", coinId],
+    () => fetchCoinTickers(coinId ? coinId : ""),
+    {
+      refetchInterval: 5000,
+    }
+  );
+  const { isLoading: ohlcvLoading, data: ohlcvData } = useQuery<IHistoric[]>(
+    ["ohlcv", coinId],
+    () => fetchCoinHistory(coinId ? coinId : ""),
+    { refetchInterval: 10000 }
   );
   return (
     <Container>
-      {tickerLoading ? (
+      {allTickerLoading || infoLoading || ohlcvLoading || tickerLoading ? (
         <h1>Loading...</h1>
       ) : (
         <ContentBox>
-          <ChartBox></ChartBox>
+          <ChartBox>
+            <ChartHeader>
+              <CoinName>
+                <Img
+                  src={`https://cryptoicon-api.vercel.app/api/icon/${
+                    infoData?.symbol ? infoData.symbol.toLowerCase() : ""
+                  }`}
+                  alt={infoData?.id ? infoData.id : ""}
+                />
+                <span>{infoData?.name ? infoData?.name : "Loading"}</span>
+              </CoinName>
+              <CoinQuote
+                percent={
+                  tickerData?.quotes
+                    ? tickerData.quotes.USD.percent_change_15m < 0
+                    : false
+                }
+              >
+                <ChartUSDBox>
+                  <span>
+                    {tickerData?.quotes
+                      ? tickerData.quotes.USD.price.toFixed(2)
+                      : "Loading"}
+                  </span>
+                  <span>USD</span>
+                </ChartUSDBox>
+                <ChartPercentBox>
+                  <span>전일대비</span>
+                  <span>
+                    {tickerData?.quotes
+                      ? tickerData.quotes.USD.percent_change_15m
+                      : "Loading"}
+                    %
+                  </span>
+                </ChartPercentBox>
+              </CoinQuote>
+            </ChartHeader>
+          </ChartBox>
           <ListBox>
             <CoinListHeader>코인리스트</CoinListHeader>
             <CoinUl>
-              {tickerData?.slice(0, 100).map((coin) => (
+              {allTickerData?.slice(0, 100).map((coin) => (
                 <Link to={`/${coin.id}`}>
                   <CoinLi key={coin.id} isActive={`${coinId}` !== `${coin.id}`}>
                     <NameBox>

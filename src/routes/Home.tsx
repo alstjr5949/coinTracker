@@ -43,13 +43,15 @@ const BgText = styled.div`
   display: flex;
   flex-direction: column;
   & span {
-    font-size: 80px;
-    font-weight: 600;
+    font-size: 70px;
+    font-weight: 900;
     color: ${(props) => props.theme.bgColor};
-    letter-spacing: 5px;
-    text-shadow: -1px -1px 2px rgba(150, 150, 150, 1);
+    letter-spacing: 3px;
+    &:nth-child(2) {
+      color: #0984e3;
+    }
     &:last-child {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 300;
       opacity: 0.7;
       letter-spacing: 1px;
@@ -61,7 +63,7 @@ const BgText = styled.div`
 const BgBtn = styled.span`
   position: absolute;
   width: 140px;
-  top: 60%;
+  top: 55%;
   left: 100px;
   color: ${(props) => props.theme.bgColor};
   font-size: 20px;
@@ -183,7 +185,7 @@ function Home() {
             </video>
             <BgText>
               <span>Simple</span>
-              <span>Coin Info.</span>
+              <span>Bit</span>
               <span>간단히 살펴보는 코인정보 사이트</span>
             </BgText>
             <Link to="/btc-bitcoin">
