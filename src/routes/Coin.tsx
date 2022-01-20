@@ -7,10 +7,11 @@ import {
   fetchCoinTickers,
 } from "../api";
 import { Link, useParams } from "react-router-dom";
+import ApexCharts from "react-apexcharts";
 
 const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 105vh;
 `;
 
 const ContentBox = styled.div`
@@ -24,7 +25,7 @@ const ContentBox = styled.div`
 
 const ChartBox = styled.div`
   width: 60%;
-  height: 80%;
+  height: 95%;
   margin-right: 1%;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
@@ -32,7 +33,7 @@ const ChartBox = styled.div`
 
 const ListBox = styled.div`
   width: 30%;
-  height: 80%;
+  height: 95%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -168,6 +169,12 @@ const ChartPercentBox = styled.div`
   }
 `;
 
+const ChartContainer = styled.div`
+  width: 100%;
+  padding: 20px;
+  color: black;
+`;
+
 interface InfoData {
   id: string;
   name: string;
@@ -236,7 +243,6 @@ interface IHistoric {
 
 function Coin() {
   const { coinId } = useParams();
-  console.log(coinId);
   const { isLoading: allTickerLoading, data: allTickerData } = useQuery<
     PriceData[]
   >("allTickers", fetchAllCoinTickers, { refetchInterval: 5000 });
@@ -299,6 +305,45 @@ function Coin() {
                 </ChartPercentBox>
               </CoinQuote>
             </ChartHeader>
+            <ChartContainer>
+              <ApexCharts
+                type="candlestick"
+                series={[
+                  {
+                    data: ohlcvData?.map((price) => {
+                      return {
+                        x: price.time_close,
+                        y: [
+                          price.open.toFixed(2),
+                          price.high.toFixed(2),
+                          price.low.toFixed(2),
+                          price.close.toFixed(2),
+                        ],
+                      };
+                    }),
+                  },
+                ]}
+                options={{
+                  chart: {
+                    toolbar: {
+                      show: false,
+                    },
+                    background: "transparent",
+                  },
+                  plotOptions: {
+                    candlestick: {
+                      colors: {
+                        upward: "#D25044",
+                        downward: "#1261C4",
+                      },
+                    },
+                  },
+                  xaxis: {
+                    type: "datetime",
+                  },
+                }}
+              />
+            </ChartContainer>
           </ChartBox>
           <ListBox>
             <CoinListHeader>코인리스트</CoinListHeader>
