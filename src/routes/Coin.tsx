@@ -8,6 +8,7 @@ import {
 } from "../api";
 import { Link, useParams } from "react-router-dom";
 import ApexCharts from "react-apexcharts";
+import Loading from "../components/Loading";
 
 const Container = styled.div`
   width: 100vw;
@@ -265,7 +266,7 @@ function Coin() {
   return (
     <Container>
       {allTickerLoading || infoLoading || ohlcvLoading || tickerLoading ? (
-        <h1>Loading...</h1>
+        <Loading />
       ) : (
         <ContentBox>
           <ChartBox>

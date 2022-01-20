@@ -3,15 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchAllCoinTickers } from "../api";
 import bgVideo from "../video/clouds.mp4";
-
-const Loader = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-`;
+import Loading from "../components/Loading";
 
 const Img = styled.img`
   width: 35px;
@@ -176,7 +168,7 @@ function Home() {
   return (
     <Container>
       {isLoading ? (
-        <Loader>Loading</Loader>
+        <Loading />
       ) : (
         <Container>
           <BgContainer>
