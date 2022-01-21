@@ -50,7 +50,8 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.20"
+    "@types/styled-components": "^5.1.20",
+    "mini-css-extract-plugin": "2.4.5"
   },
   "homepage": "https://alstjr5949.github.io/coinTracker"
 }
