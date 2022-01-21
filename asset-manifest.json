@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.js": "/coinTracker/static/js/main.ec5dadd2.js",
+    "static/media/clouds.mp4": "/coinTracker/static/media/clouds.125d7d7a07f75fe4b211.mp4",
+    "index.html": "/coinTracker/index.html",
+    "main.ec5dadd2.js.map": "/coinTracker/static/js/main.ec5dadd2.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.ec5dadd2.js"
+  ]
+}
