@@ -313,7 +313,7 @@ function Coin() {
                   {
                     data: ohlcvData?.map((price) => {
                       return {
-                        x: price.time_close,
+                        x: price.time_open,
                         y: [
                           price.open.toFixed(2),
                           price.high.toFixed(2),
