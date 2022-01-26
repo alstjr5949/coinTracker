@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { isDarkAtom } from "../atom";
 
 const NavContainer = styled.div`
   box-sizing: border-box;
@@ -29,7 +31,7 @@ const Logo = styled.div`
     font-style: italic;
     font-weight: 800;
     &:first-child {
-      color: #101820;
+      color: ${(props) => props.theme.nameColor};
     }
     &:last-child {
       color: #0984e3;
@@ -37,7 +39,15 @@ const Logo = styled.div`
   }
 `;
 
+const ThemeModeBtn = styled.button`
+  position: absolute;
+  right: 120px;
+  top: 70px;
+`;
+
 function Nav() {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   return (
     <NavContainer>
       <Logo>
@@ -45,6 +55,7 @@ function Nav() {
           <span>Simp</span>
           <span>Bit</span>
         </Link>
+        <ThemeModeBtn onClick={toggleDarkAtom}>Toggle</ThemeModeBtn>
       </Logo>
     </NavContainer>
   );

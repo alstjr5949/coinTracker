@@ -9,6 +9,8 @@ import {
 import { Link, useParams } from "react-router-dom";
 import ApexCharts from "react-apexcharts";
 import Loading from "../components/Loading";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atom";
 
 const Container = styled.div`
   width: 100vw;
@@ -29,7 +31,7 @@ const ChartBox = styled.div`
   height: 95%;
   margin-right: 1%;
   padding: 20px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  box-shadow: ${(props) => props.theme.lightBlackWhite} 0px 1px 2px 0px;
 `;
 
 const ListBox = styled.div`
@@ -39,13 +41,13 @@ const ListBox = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 10px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  box-shadow: ${(props) => props.theme.lightBlackWhite} 0px 1px 2px 0px;
 `;
 
 const CoinListHeader = styled.div`
   width: 90%;
   height: 10%;
-  color: black;
+  color: ${(props) => props.theme.nameColor};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,7 +78,7 @@ const CoinLi = styled.li<{ isActive: boolean }>`
   border: 1px solid
     ${(props) => (props.isActive ? props.theme.bgColor : "rgba(0,0,0,0.1)")};
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: ${(props) => props.theme.lightBlackWhite};
     border: 1px solid rgba(0, 0, 0, 0.01);
   }
 `;
@@ -86,7 +88,7 @@ const QuotesBox = styled.div<{ percent: boolean }>`
   display: flex;
   justify-content: flex-end;
   color: ${(props) =>
-    props.percent ? props.theme.textColor : props.theme.accentColor};
+    props.percent ? props.theme.tickerColor : props.theme.accentColor};
   & span {
     width: 50%;
     font-size: 16px;
@@ -104,7 +106,7 @@ const QuotesBox = styled.div<{ percent: boolean }>`
 const NameBox = styled.div`
   display: flex;
   align-items: center;
-  color: black;
+  color: ${(props) => props.theme.nameColor};
   font-weight: 400;
   font-size: 16px;
 `;
@@ -128,8 +130,8 @@ const CoinName = styled.div`
   padding: 20px;
   font-size: 20px;
   font-weight: 600;
-  color: black;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  color: ${(props) => props.theme.nameColor};
+  border-bottom: 1px solid ${(props) => props.theme.lightBlackWhite};
 `;
 
 const CoinQuote = styled.div<{ percent: boolean }>`
@@ -139,7 +141,7 @@ const CoinQuote = styled.div<{ percent: boolean }>`
   flex-direction: column;
   padding: 20px;
   color: ${(props) =>
-    props.percent ? props.theme.textColor : props.theme.accentColor};
+    props.percent ? props.theme.tickerColor : props.theme.accentColor};
 `;
 
 const ChartUSDBox = styled.div`
@@ -160,7 +162,7 @@ const ChartPercentBox = styled.div`
   align-items: center;
   & span:first-child {
     font-size: 16px;
-    color: rgba(0, 0, 0, 0.4);
+    color: ${(props) => props.theme.littleBlackWhite};
     margin-right: 10px;
   }
   & span:last-child {
@@ -173,7 +175,7 @@ const ChartPercentBox = styled.div`
 const ChartContainer = styled.div`
   width: 100%;
   padding: 20px;
-  color: black;
+  color: ${(props) => props.theme.nameColor};
 `;
 
 interface InfoData {
@@ -243,6 +245,7 @@ interface IHistoric {
 }
 
 function Coin() {
+  const isDark = useRecoilValue(isDarkAtom);
   const { coinId } = useParams();
   const { isLoading: allTickerLoading, data: allTickerData } = useQuery<
     PriceData[]
@@ -325,6 +328,9 @@ function Coin() {
                   },
                 ]}
                 options={{
+                  theme: {
+                    mode: isDark ? "dark" : "light",
+                  },
                   chart: {
                     toolbar: {
                       show: false,

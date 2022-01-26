@@ -37,7 +37,7 @@ const BgText = styled.div`
   & span {
     font-size: 70px;
     font-weight: 900;
-    color: ${(props) => props.theme.bgColor};
+    color: #fcf6f5;
     letter-spacing: 3px;
     &:nth-child(2) {
       color: #0984e3;
@@ -57,7 +57,7 @@ const BgBtn = styled.span`
   width: 140px;
   top: 55%;
   left: 100px;
-  color: ${(props) => props.theme.bgColor};
+  color: #fcf6f5;
   font-size: 20px;
   font-weight: 600;
   margin-top: 20px;
@@ -83,8 +83,8 @@ const ContentTitle = styled.div`
   width: 20%;
   font-size: 40px;
   font-weight: 600;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  color: black;
+  border-bottom: 1px solid ${(props) => props.theme.littleBlackWhite};
+  color: ${(props) => props.theme.nameColor};
 `;
 
 const CoinsBox = styled.ul`
@@ -107,7 +107,7 @@ const CoinBox = styled.li<{ percent: boolean }>`
     width: 45%;
     display: flex;
     align-items: center;
-    color: black;
+    color: ${(props) => props.theme.nameColor};
     font-weight: 400;
   }
   div {
@@ -117,7 +117,7 @@ const CoinBox = styled.li<{ percent: boolean }>`
     font-weight: 400;
     & span {
       color: ${(props) =>
-        props.percent ? props.theme.textColor : props.theme.accentColor};
+        props.percent ? props.theme.tickerColor : props.theme.accentColor};
     }
     & span:first-child {
       margin-right: 30px;
