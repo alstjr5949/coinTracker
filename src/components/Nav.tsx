@@ -1,5 +1,7 @@
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { isDarkAtom } from "../atom";
 
@@ -39,13 +41,21 @@ const Logo = styled.div`
   }
 `;
 
-const ThemeModeBtn = styled.button`
+const ThemeModeBtn = styled.div<{ dark: boolean }>`
   position: absolute;
   right: 120px;
-  top: 70px;
+  top: 55px;
+  cursor: pointer;
+  font-size: 25px;
+  color: ${(props) => props.theme.nameColor};
+  transition: all 0.5s ease-in-out;
+  &:hover {
+    color: ${(props) => (props.dark ? "#ffa726" : "#fff176")};
+  }
 `;
 
 function Nav() {
+  const isDark = useRecoilValue(isDarkAtom);
   const setDarkAtom = useSetRecoilState(isDarkAtom);
   const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   return (
@@ -55,7 +65,9 @@ function Nav() {
           <span>Simp</span>
           <span>Bit</span>
         </Link>
-        <ThemeModeBtn onClick={toggleDarkAtom}>Toggle</ThemeModeBtn>
+        <ThemeModeBtn onClick={toggleDarkAtom} dark={isDark}>
+          <FontAwesomeIcon icon={isDark ? faSun : faMoon} />
+        </ThemeModeBtn>
       </Logo>
     </NavContainer>
   );
