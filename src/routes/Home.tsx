@@ -2,8 +2,10 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchAllCoinTickers } from "../api";
-import bgVideo from "../video/clouds.mp4";
+import lightBgVideo from "../video/clouds.mp4";
 import Loading from "../components/Loading";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atom";
 
 const Img = styled.img`
   width: 35px;
@@ -25,6 +27,9 @@ const BgContainer = styled.div`
   overflow: hidden;
   & video {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 1s ease-in-out;
   }
 `;
 
@@ -173,7 +178,7 @@ function Home() {
         <Container>
           <BgContainer>
             <video muted autoPlay loop>
-              <source src={bgVideo} type="video/mp4" />
+              <source src={lightBgVideo} type="video/mp4" />
             </video>
             <BgText>
               <span>Simple</span>
