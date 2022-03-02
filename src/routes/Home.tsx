@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { fetchAllCoinTickers } from "../api";
 import lightBgVideo from "../video/clouds.mp4";
 import Loading from "../components/Loading";
-import { useRecoilValue } from "recoil";
-import { isDarkAtom } from "../atom";
 
 const Img = styled.img`
   width: 35px;
