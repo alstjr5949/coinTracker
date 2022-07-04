@@ -276,7 +276,7 @@ function Coin() {
             <ChartHeader>
               <CoinName>
                 <Img
-                  src={`https://cryptoicon-api.vercel.app/api/icon/${
+                  src={`https://coinicons-api.vercel.app/api/icon/${
                     infoData?.symbol ? infoData.symbol.toLowerCase() : ""
                   }`}
                   alt={infoData?.id ? infoData.id : ""}
@@ -317,12 +317,7 @@ function Coin() {
                     data: ohlcvData?.map((price) => {
                       return {
                         x: price.time_open,
-                        y: [
-                          price.open.toFixed(2),
-                          price.high.toFixed(2),
-                          price.low.toFixed(2),
-                          price.close.toFixed(2),
-                        ],
+                        y: [price.open, price.high, price.low, price.close],
                       };
                     }),
                   },
@@ -360,7 +355,7 @@ function Coin() {
                   <CoinLi key={coin.id} isActive={`${coinId}` !== `${coin.id}`}>
                     <NameBox>
                       <Img
-                        src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                        src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
                         alt={coin.id}
                       />
                       {coin.name}

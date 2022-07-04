@@ -199,7 +199,7 @@ function Home() {
                 >
                   <Link to={`/${coin.id}`}>
                     <Img
-                      src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                      src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
                       alt={coin.id}
                     />
                     {coin.name}
